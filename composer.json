@@ -1,0 +1,29 @@
+{
+    "name": "skowronline/query-param-bundle",
+    "description": "Validate Query Param values",
+    "type": "symfony-bundle",
+    "keywords": [
+        "querystring",
+        "validation"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Skowronline\\QueryParamValidatorBundle\\": ""
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "krzysztof skaradzinski",
+            "email": "wygladaszjak@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.5.9",
+        "symfony/http-foundation": "^3.0",
+        "symfony/options-resolver": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.3"
+    }
+}

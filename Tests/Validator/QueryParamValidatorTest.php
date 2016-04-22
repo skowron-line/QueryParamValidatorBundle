@@ -1,0 +1,104 @@
+<?php
+
+namespace Skowronline\QueryParamValidatorBundle\Tests\Validator;
+
+use Skowronline\QueryParamValidatorBundle\Annotation\QueryParam;
+use Skowronline\QueryParamValidatorBundle\Validator\QueryParamValidator;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\RequestStack;
+
+/**
+ * @author Krzysztof Skaradziński <skaradzinski.krzysztof@gmail.com>
+ *
+ * @covers QueryParamValidator
+ */
+class QueryParamValidatorTest extends \PHPUnit_Framework_TestCase
+{
+    public function testRequestWithoutQuery()
+    {
+        /** @var RequestStack $requestStack */
+        $requestStack = $this->mockRequestStack();
+
+        $queryParamValidator = new QueryParamValidator($requestStack);
+        $this->assertTrue($queryParamValidator->validate(new QueryParam(['key' => 'sort'])));
+    }
+
+    public function testRequestWithoutQueryButRequiredParam()
+    {
+        /** @var RequestStack $requestStack */
+        $requestStack = $this->mockRequestStack();
+
+        $queryParamValidator = new QueryParamValidator($requestStack);
+        $this->assertFalse($queryParamValidator->validate(new QueryParam(['key' => 'sort', 'required'=> true])));
+    }
+
+    public function testRequestWithInvalidKey()
+    {
+        /** @var RequestStack $requestStack */
+        $requestStack = $this->mockRequestStack(['order']);
+
+        $queryParamValidator = new QueryParamValidator($requestStack);
+        $this->assertFalse($queryParamValidator->validate(new QueryParam(['key' => 'sort'])));
+    }
+
+    public function testRequestWithKeyButInvalidValue()
+    {
+        /** @var RequestStack $requestStack */
+        $requestStack = $this->mockRequestStack(['order'=> 'random']);
+
+        $queryParamValidator = new QueryParamValidator($requestStack);
+        $this->assertFalse(
+            $queryParamValidator->validate(new QueryParam(['key' => 'order', 'values' => ['asc', 'desc']]))
+        );
+    }
+
+    public function testRequestValidValue()
+    {
+        /** @var RequestStack $requestStack */
+        $requestStack = $this->mockRequestStack(['order'=> 'asc']);
+
+        $queryParamValidator = new QueryParamValidator($requestStack);
+        $this->assertTrue(
+            $queryParamValidator->validate(new QueryParam(['key' => 'order', 'values' => ['asc', 'desc']]))
+        );
+    }
+
+    /**
+     * @param array $queryArray
+     *
+     * @return RequestStack
+     */
+    private function mockRequestStack(array $queryArray = [])
+    {
+        /** @var RequestStack $requestStack */
+        $requestStack = $this
+            ->getMockBuilder(RequestStack::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $requestStack
+            ->expects($this->once())
+            ->method('getMasterRequest')
+            ->willReturn(new FakeRequest($queryArray));
+
+        return $requestStack;
+    }
+
+}
+
+class FakeRequest
+{
+    /**
+     * @var ParameterBag
+     */
+    public $query;
+
+    /**
+     * @param array $query
+     */
+    public function __construct(array $query = [])
+    {
+        $this->query = new ParameterBag($query);
+    }
+}
+
