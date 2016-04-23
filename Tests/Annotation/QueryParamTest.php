@@ -7,7 +7,7 @@ use Skowronline\QueryParamValidatorBundle\Annotation\QueryParam;
 /**
  * @author Krzysztof Skaradziński <skaradzinski.krzysztof@gmail.com>
  *
- * @covers QueryParam
+ * @covers Skowronline\QueryParamValidatorBundle\Annotation\QueryParam
  */
 class QueryParamTest extends \PHPUnit_Framework_TestCase
 {

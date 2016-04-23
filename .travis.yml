@@ -4,7 +4,12 @@ php:
   - '7.0'
   - hhvm
 
-install:
-- composer install --prefer-dist --no-interaction
+sudo: true
 
-script: vendor/bin/phpunit -c phpunit.xml.dist
+install:
+  - composer install --prefer-dist --no-interaction
+
+script: vendor/bin/phpunit -c phpunit.xml.dist --coverage-text --coverage-clover=coverage.xml
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
