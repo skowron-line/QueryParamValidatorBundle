@@ -1,5 +1,5 @@
 {
-    "name": "skowronline/query-param-bundle",
+    "name": "skowronline/query-param-validator-bundle",
     "description": "Validate Query Param values",
     "type": "symfony-bundle",
     "keywords": [
