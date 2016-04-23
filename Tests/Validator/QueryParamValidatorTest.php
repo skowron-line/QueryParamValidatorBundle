@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * @author Krzysztof Skaradziński <skaradzinski.krzysztof@gmail.com>
  *
- * @covers QueryParamValidator
+ * @covers Skowronline\QueryParamValidatorBundle\Validator\QueryParamValidator
  */
 class QueryParamValidatorTest extends \PHPUnit_Framework_TestCase
 {
