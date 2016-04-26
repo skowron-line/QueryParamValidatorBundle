@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @author Krzysztof Skaradziński <skaradzinski.krzysztof@gmail.com>
  */
-class QueryParamListener
+class QueryParamValidatorListener
 {
     /**
      * @var Reader
@@ -36,6 +36,8 @@ class QueryParamListener
 
     /**
      * @param FilterControllerEvent $event
+     *
+     * @throws NotFoundHttpException
      */
     public function onKernelController(FilterControllerEvent $event)
     {

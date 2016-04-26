@@ -31,7 +31,7 @@ class QueryParamValidator
      */
     public function validate(QueryParam $queryParam)
     {
-        $key = $queryParam->getKey();
+        $key = $queryParam->getField();
         $resolver = new OptionsResolver();
         $resolver->setDefined($key);
 
@@ -39,8 +39,8 @@ class QueryParamValidator
             $resolver->setRequired($key);
         }
 
-        if (null !== $queryParam->getValues()) {
-            $resolver->setAllowedValues($key, $queryParam->getValues());
+        if (null !== $queryParam->getAllowed()) {
+            $resolver->setAllowedValues($key, $queryParam->getAllowed());
         }
 
         try {

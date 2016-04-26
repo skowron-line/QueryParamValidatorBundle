@@ -14,7 +14,7 @@ class QueryParamTest extends \PHPUnit_Framework_TestCase
     public function testInvalidKeyMissing()
     {
         $this->expectException(\RunTimeException::class);
-        $this->expectExceptionMessage('Key must not be empty');
+        $this->expectExceptionMessage('Field must not be empty');
 
         new QueryParam();
     }
@@ -30,7 +30,7 @@ class QueryParamTest extends \PHPUnit_Framework_TestCase
         $this->expectException(\RunTimeException::class);
         $this->expectExceptionMessage($exceptionMessage);
 
-        new QueryParam(['key'=> $type]);
+        new QueryParam(['value'=> $type]);
     }
 
     /**
@@ -39,9 +39,9 @@ class QueryParamTest extends \PHPUnit_Framework_TestCase
     public function invalidKeyDataProvider()
     {
         return [
-            [12, 'Key must be string, but "integer" given'],
-            [0.7, 'Key must be string, but "double" given'],
-            [new \stdClass(), 'Key must be string, but "object" given'],
+            [12, 'Field must be string, but "integer" given'],
+            [0.7, 'Field must be string, but "double" given'],
+            [new \stdClass(), 'Field must be string, but "object" given'],
         ];
     }
 
@@ -56,7 +56,7 @@ class QueryParamTest extends \PHPUnit_Framework_TestCase
         $this->expectException(\RunTimeException::class);
         $this->expectExceptionMessage($exceptionMessage);
 
-        new QueryParam(['key'=> 'sort', 'required'=> $type]);
+        new QueryParam(['value'=> 'sort', 'required'=> $type]);
     }
 
     /**
@@ -75,25 +75,25 @@ class QueryParamTest extends \PHPUnit_Framework_TestCase
 
     public function testObject()
     {
-        $queryParam = new QueryParam(['key'=> 'sort']);
+        $queryParam = new QueryParam(['value'=> 'sort']);
         $this->assertFalse($queryParam->isRequired());
-        $this->assertNull($queryParam->getValues());
-        $this->assertSame('sort', $queryParam->getKey());
+        $this->assertNull($queryParam->getAllowed());
+        $this->assertSame('sort', $queryParam->getField());
 
-        $queryParam2 = new QueryParam(['key'=> 'sort', 'required'=> true]);
+        $queryParam2 = new QueryParam(['value'=> 'sort', 'required'=> true]);
         $this->assertTrue($queryParam2->isRequired());
-        $this->assertNull($queryParam2->getValues());
-        $this->assertSame('sort', $queryParam2->getKey());
+        $this->assertNull($queryParam2->getAllowed());
+        $this->assertSame('sort', $queryParam2->getField());
 
-        $queryParam3 = new QueryParam(['key'=> 'sort', 'values'=> [], 'required'=> true]);
+        $queryParam3 = new QueryParam(['value'=> 'sort', 'allowed'=> [], 'required'=> true]);
         $this->assertTrue($queryParam3->isRequired());
-        $this->assertEmpty($queryParam3->getValues());
-        $this->assertSame('sort', $queryParam3->getKey());
+        $this->assertEmpty($queryParam3->getAllowed());
+        $this->assertSame('sort', $queryParam3->getField());
 
-        $queryParam4 = new QueryParam(['key'=> 'sort', 'values'=> ['asc', 'desc'], 'required'=> true]);
+        $queryParam4 = new QueryParam(['value'=> 'sort', 'allowed'=> ['asc', 'desc'], 'required'=> true]);
         $this->assertTrue($queryParam4->isRequired());
-        $this->assertSame(['asc', 'desc'],$queryParam4->getValues());
-        $this->assertSame('sort', $queryParam4->getKey());
+        $this->assertSame(['asc', 'desc'],$queryParam4->getAllowed());
+        $this->assertSame('sort', $queryParam4->getField());
     }
 }
 

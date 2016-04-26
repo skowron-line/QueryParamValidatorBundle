@@ -16,12 +16,12 @@ class QueryParam
     /**
      * @var string
      */
-    private $key;
+    private $field;
 
     /**
      * @var null|array
      */
-    private $values;
+    private $allowed;
 
     /**
      * @var bool
@@ -35,17 +35,17 @@ class QueryParam
     {
         $data = array_replace(
             [
-                'key'      => null,
-                'values'   => null,
+                'value'    => null,
+                'allowed'  => null,
                 'required' => false,
             ],
             $data
         );
 
-        $this->validateKey($data['key']);
-        $this->setKey($data['key']);
+        $this->validateField($data['value']);
+        $this->setField($data['value']);
 
-        $this->setValues($data['values']);
+        $this->setAllowed($data['allowed']);
 
         if (false === is_bool($data['required'])) {
             throw new \RunTimeException(
@@ -59,33 +59,33 @@ class QueryParam
     /**
      * @return string
      */
-    public function getKey()
+    public function getField()
     {
-        return $this->key;
+        return $this->field;
     }
 
     /**
-     * @param string $key
+     * @param string $field
      */
-    public function setKey($key)
+    public function setField($field)
     {
-        $this->key = $key;
+        $this->field = $field;
     }
 
     /**
      * @return null|array
      */
-    public function getValues()
+    public function getAllowed()
     {
-        return $this->values;
+        return $this->allowed;
     }
 
     /**
-     * @param array $values
+     * @param array $allowed
      */
-    public function setValues($values)
+    public function setAllowed($allowed)
     {
-        $this->values = $values;
+        $this->allowed = $allowed;
     }
 
     /**
@@ -105,17 +105,17 @@ class QueryParam
     }
 
     /**
-     * @param mixed $key
+     * @param mixed $field
      */
-    private function validateKey($key)
+    private function validateField($field)
     {
-        if (true === empty($key)) {
-            throw new \RunTimeException('Key must not be empty');
+        if (true === empty($field)) {
+            throw new \RunTimeException('Field must not be empty');
         }
 
-        if (false === is_string($key)) {
+        if (false === is_string($field)) {
             throw new \RunTimeException(
-                sprintf('Key must be string, but "%s" given', gettype($key))
+                sprintf('Field must be string, but "%s" given', gettype($field))
             );
         }
     }

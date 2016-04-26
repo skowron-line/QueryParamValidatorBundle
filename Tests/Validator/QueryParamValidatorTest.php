@@ -20,7 +20,7 @@ class QueryParamValidatorTest extends \PHPUnit_Framework_TestCase
         $requestStack = $this->mockRequestStack();
 
         $queryParamValidator = new QueryParamValidator($requestStack);
-        $this->assertTrue($queryParamValidator->validate(new QueryParam(['key' => 'sort'])));
+        $this->assertTrue($queryParamValidator->validate(new QueryParam(['value' => 'sort'])));
     }
 
     public function testRequestWithoutQueryButRequiredParam()
@@ -29,7 +29,7 @@ class QueryParamValidatorTest extends \PHPUnit_Framework_TestCase
         $requestStack = $this->mockRequestStack();
 
         $queryParamValidator = new QueryParamValidator($requestStack);
-        $this->assertFalse($queryParamValidator->validate(new QueryParam(['key' => 'sort', 'required'=> true])));
+        $this->assertFalse($queryParamValidator->validate(new QueryParam(['value' => 'sort', 'required'=> true])));
     }
 
     public function testRequestWithInvalidKey()
@@ -38,7 +38,7 @@ class QueryParamValidatorTest extends \PHPUnit_Framework_TestCase
         $requestStack = $this->mockRequestStack(['order']);
 
         $queryParamValidator = new QueryParamValidator($requestStack);
-        $this->assertFalse($queryParamValidator->validate(new QueryParam(['key' => 'sort'])));
+        $this->assertFalse($queryParamValidator->validate(new QueryParam(['value' => 'sort'])));
     }
 
     public function testRequestWithKeyButInvalidValue()
@@ -48,7 +48,7 @@ class QueryParamValidatorTest extends \PHPUnit_Framework_TestCase
 
         $queryParamValidator = new QueryParamValidator($requestStack);
         $this->assertFalse(
-            $queryParamValidator->validate(new QueryParam(['key' => 'order', 'values' => ['asc', 'desc']]))
+            $queryParamValidator->validate(new QueryParam(['value' => 'order', 'allowed' => ['asc', 'desc']]))
         );
     }
 
@@ -59,7 +59,7 @@ class QueryParamValidatorTest extends \PHPUnit_Framework_TestCase
 
         $queryParamValidator = new QueryParamValidator($requestStack);
         $this->assertTrue(
-            $queryParamValidator->validate(new QueryParam(['key' => 'order', 'values' => ['asc', 'desc']]))
+            $queryParamValidator->validate(new QueryParam(['value' => 'order', 'values' => ['asc', 'desc']]))
         );
     }
 
