@@ -48,13 +48,22 @@ class QueryParamValidatorListener
         $object = new \ReflectionObject($controller[0]);
         $method = $object->getMethod($controller[1]);
 
-        $queryParam = $this->reader->getMethodAnnotation($method, QueryParam::class);
-        if (false === ($queryParam instanceof QueryParam)) {
+        $annotations = $this->reader->getMethodAnnotations($method);
+        if (true === empty($annotations)) {
             return;
         }
 
-        if (false === $this->queryParamValidator->validate($queryParam)) {
+        foreach ($annotations as $annotation) {
+            if (false === ($annotation instanceof QueryParam)) {
+                continue;
+            }
+
+            if (true === $this->queryParamValidator->validate($annotation)) {
+                continue;
+            }
+
             throw new NotFoundHttpException;
         }
+
     }
 }
