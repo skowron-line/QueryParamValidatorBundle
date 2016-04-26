@@ -14,14 +14,36 @@ Installation
 composer require skowronline/query-param-validator-bundle
 ```
 
+```yml
+// app/config.yml
+imports:
+    ...
+    - { resource: '@SkowronlineQueryParamValidatorBundle/Resources/config/services.yml' }
+```
+
 Usage
 ===
 
 ```php
-<?php
-
 /**
  * @QueryParam("order", allowed={"asc", "desc"}, required=true)
+ */
+public function indexAction()
+```
+
+```
+/route -> 404 Page Not Found
+/route?order=asc -> 200 Ok
+/route?order=desc -> 200 Ok
+/route?order=random -> 404 Page Not Found
+```
+
+You can use multiple annotations
+
+```php
+/**
+ * @QueryParam("order", allowed={"asc", "desc"}, required=true)
+ * @QueryParam("page", required=false)
  */
 public function indexAction()
 ```
