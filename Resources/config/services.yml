@@ -1,0 +1,10 @@
+services:
+    skowronline.queryParam.validator:
+        class: Skowronline\QueryParamValidatorBundle\Validator\QueryParamValidator
+        arguments: ['@request_stack']
+
+    skowronline.queryParam.listener:
+        class: Skowronline\QueryParamValidatorBundle\EventListener\QueryParamListener
+        arguments: ['@annotation_reader', '@skowronline.queryParam.validator']
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
