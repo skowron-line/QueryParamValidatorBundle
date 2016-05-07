@@ -77,12 +77,12 @@ class QueryParamTest extends \PHPUnit_Framework_TestCase
     {
         $queryParam = new QueryParam(['value'=> 'sort']);
         $this->assertFalse($queryParam->isRequired());
-        $this->assertNull($queryParam->getAllowed());
+        $this->assertEmpty($queryParam->getAllowed());
         $this->assertSame('sort', $queryParam->getField());
 
         $queryParam2 = new QueryParam(['value'=> 'sort', 'required'=> true]);
         $this->assertTrue($queryParam2->isRequired());
-        $this->assertNull($queryParam2->getAllowed());
+        $this->assertEmpty($queryParam2->getAllowed());
         $this->assertSame('sort', $queryParam2->getField());
 
         $queryParam3 = new QueryParam(['value'=> 'sort', 'allowed'=> [], 'required'=> true]);

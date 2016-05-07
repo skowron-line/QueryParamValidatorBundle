@@ -4,7 +4,6 @@ namespace Skowronline\QueryParamValidatorBundle\Tests\Validator;
 
 use Skowronline\QueryParamValidatorBundle\Annotation\QueryParam;
 use Skowronline\QueryParamValidatorBundle\Validator\QueryParamValidator;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -59,7 +58,7 @@ class QueryParamValidatorTest extends \PHPUnit_Framework_TestCase
 
         $queryParamValidator = new QueryParamValidator($requestStack);
         $this->assertTrue(
-            $queryParamValidator->validate(new QueryParam(['value' => 'order', 'values' => ['asc', 'desc']]))
+            $queryParamValidator->validate(new QueryParam(['value' => 'order', 'allowed' => ['asc', 'desc']]))
         );
     }
 
@@ -85,20 +84,3 @@ class QueryParamValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
 }
-
-class FakeRequest
-{
-    /**
-     * @var ParameterBag
-     */
-    public $query;
-
-    /**
-     * @param array $query
-     */
-    public function __construct(array $query = [])
-    {
-        $this->query = new ParameterBag($query);
-    }
-}
-

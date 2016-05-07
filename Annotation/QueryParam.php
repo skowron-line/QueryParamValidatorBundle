@@ -19,9 +19,9 @@ class QueryParam
     private $field;
 
     /**
-     * @var null|array
+     * @var array
      */
-    private $allowed;
+    private $allowed = [];
 
     /**
      * @var bool
@@ -36,7 +36,7 @@ class QueryParam
         $data = array_replace(
             [
                 'value'    => null,
-                'allowed'  => null,
+                'allowed'  => [],
                 'required' => false,
             ],
             $data
@@ -73,7 +73,7 @@ class QueryParam
     }
 
     /**
-     * @return null|array
+     * @return array
      */
     public function getAllowed()
     {
