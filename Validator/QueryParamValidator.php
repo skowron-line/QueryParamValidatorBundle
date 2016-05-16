@@ -39,7 +39,7 @@ class QueryParamValidator
             $resolver->setRequired($key);
         }
 
-        if (null !== $queryParam->getAllowed()) {
+        if ([] !== $queryParam->getAllowed()) {
             $resolver->setAllowedValues($key, $queryParam->getAllowed());
         }
 
