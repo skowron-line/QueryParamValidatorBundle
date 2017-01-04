@@ -8,3 +8,4 @@ services:
         arguments: ['@annotation_reader', '@skowronline.queryParam.validator']
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            
